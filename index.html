@@ -18,11 +18,11 @@
             --transition-speed: 0.5s; --ease: cubic-bezier(0.16, 1, 0.3, 1); 
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
         
         @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        body { font-family: var(--font-body); background-color: var(--color-bg); color: var(--color-text); line-height: 1.6; opacity: 0; animation: pageFadeIn 1s var(--ease) forwards; }
+        body { font-family: var(--font-body); background-color: var(--color-bg); color: var(--color-text); line-height: 1.6; opacity: 0; animation: pageFadeIn 1s var(--ease) forwards; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; color: var(--color-text); }
         h3 { font-size: 2.2rem; margin-bottom: 2rem; }
         .text-center { text-align: center; } .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
@@ -42,11 +42,13 @@
         
         .about-text { max-width: 750px; margin: 0 auto; font-size: 1.15rem; color: var(--color-text-light); font-weight: 300; }
         
-        .filters { margin-bottom: 50px; }
-        .filter-btn { background: none; border: 1px solid var(--color-accent); color: var(--color-text); padding: 10px 24px; margin: 0 8px; border-radius: 25px; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; transition: all 0.3s var(--ease); }
+        /* Adjusted filters for mobile wrapping */
+        .filters { margin-bottom: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .filter-btn { background: none; border: 1px solid var(--color-accent); color: var(--color-text); padding: 8px 20px; border-radius: 25px; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; transition: all 0.3s var(--ease); }
         .filter-btn.active, .filter-btn:hover { background: var(--color-accent); color: #FFF; box-shadow: 0 4px 12px var(--color-card-shadow); }
         
-        .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
+        /* Made minmax slightly smaller for better fit on tight screens */
+        .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .profile-card { background: #FFF; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.02); cursor: pointer; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
         .profile-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px var(--color-card-shadow); }
         .profile-img { width: 100%; height: 280px; object-fit: cover; transition: transform 0.5s var(--ease); }
@@ -55,7 +57,6 @@
         .profile-name { font-size: 1.6rem; margin-bottom: 8px; }
         .lifespan-text { font-size: 0.9rem; color: var(--color-text-light); font-style: italic; margin-bottom: 12px; font-weight: 300; }
         
-        /* --- New Status Badges --- */
         .status-badge { display: inline-block; font-size: 0.75rem; padding: 5px 14px; border-radius: 20px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .badge-rainbow { background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 25%, #f6d365 50%, #a1c4fd 75%, #c2e9fb 100%); color: var(--color-text); }
         .badge-present { background-color: #A9BBA0; color: #FFF; }
@@ -64,19 +65,17 @@
         .tags-container { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
         .personality-tag { background-color: var(--color-bg-alt); color: var(--color-text-light); font-size: 0.75rem; padding: 5px 12px; border-radius: 15px; text-transform: lowercase; border: 1px solid #EAE3D5; font-weight: 600; }
         
-        /* --- Modal Smooth Transitions --- */
-        .modal-overlay { visibility: hidden; opacity: 0; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(30, 25, 20, 0.9); z-index: 1000; overflow-y: auto; transition: opacity var(--transition-speed) var(--ease), visibility var(--transition-speed) var(--ease); }
+        .modal-overlay { visibility: hidden; opacity: 0; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(30, 25, 20, 0.9); z-index: 1000; overflow-y: auto; overflow-x: hidden; transition: opacity var(--transition-speed) var(--ease), visibility var(--transition-speed) var(--ease); }
         .modal-overlay.open { visibility: visible; opacity: 1; }
         .modal-content { background-color: var(--color-bg); max-width: 900px; margin: 50px auto; border-radius: 15px; padding: 60px 40px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: scale(0.95) translateY(30px); transition: transform var(--transition-speed) var(--ease); }
         .modal-overlay.open .modal-content { transform: scale(1) translateY(0); } 
 
-        .close-modal { position: absolute; top: 25px; right: 30px; font-size: 35px; color: var(--color-text-light); cursor: pointer; transition: color 0.3s ease; }
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 40px; line-height: 1; color: var(--color-text-light); cursor: pointer; transition: color 0.3s ease; z-index: 10;}
         .close-modal:hover { color: var(--color-text); }
         
         .modal-header { margin-bottom: 30px; border-bottom: 1px solid var(--color-bg-alt); padding-bottom: 30px;}
-        .modal-header h2 { font-size: 3.5rem; margin-bottom: 5px; }
+        .modal-header h2 { font-size: 3.5rem; margin-bottom: 5px; word-wrap: break-word;}
         
-        /* --- New Modal Quotes --- */
         .modal-quote { font-family: var(--font-heading); font-style: italic; font-size: 1.15rem; color: var(--color-accent); max-width: 650px; margin: 15px auto 25px auto; line-height: 1.6; }
         
         .modal-main-img { width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 40px; box-shadow: 0 10px 25px var(--color-card-shadow); }
@@ -93,13 +92,13 @@
         .modal-gallery-img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; cursor: pointer; transition: opacity 0.3s ease; }
         .modal-gallery-img:hover { opacity: 0.85; }
         
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
         .lightbox { display: none; position: fixed; z-index: 1100; padding-top: 60px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(20, 18, 15, 0.98); }
-        .lightbox-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; border-radius: 4px; animation: zoom 0.4s var(--ease); }
-        .close-lightbox { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
+        .lightbox-content { margin: auto; display: block; max-width: 95%; max-height: 85vh; border-radius: 4px; animation: zoom 0.4s var(--ease); object-fit: contain;}
+        .close-lightbox { position: absolute; top: 15px; right: 25px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1200;}
         @keyframes zoom { from {transform:scale(0.9); opacity: 0;} to {transform:scale(1); opacity: 1;} }
         
         footer { background-color: var(--color-text); color: #FFF; padding: 40px 0; font-size: 0.9rem; letter-spacing: 1px; margin-top: 80px;}
@@ -108,8 +107,37 @@
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
         
+        /* --- COMPLETELY REWRITTEN MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
-            .nav-links { display: none; } .hero-content h2 { font-size: 3rem; } .hero-content p { font-size: 1.1rem; } h3 { font-size: 1.8rem; } .section-padding { padding: 50px 0; } .profile-grid { gap: 25px; } .modal-content { padding: 40px 20px; margin: 20px; } .modal-header h2 { font-size: 2.5rem; } .modal-main-img { max-height: 300px; } .modal-quote { font-size: 1rem; }
+            /* Fix Navigation */
+            .nav-container { flex-direction: column; gap: 10px; padding: 15px; }
+            .nav-links { display: flex; gap: 15px; justify-content: center; width: 100%; margin: 0; padding: 0;}
+            
+            /* Fix Hero & Typgraphy */
+            #hero { margin-top: 80px; height: 60vh; }
+            .hero-content h2 { font-size: 3rem; } 
+            .hero-content p { font-size: 1.1rem; } 
+            h3 { font-size: 1.8rem; } 
+            
+            /* Fix Grid Layouts */
+            .section-padding { padding: 50px 0; } 
+            .profile-grid { grid-template-columns: 1fr; gap: 25px; } /* Forces 1 column on small phones */
+            .mini-gallery-grid { grid-template-columns: 1fr; }
+            .video-grid { grid-template-columns: 1fr; }
+            
+            /* Fix Modal Overflows */
+            .modal-content { 
+                padding: 40px 20px 30px 20px; 
+                margin: 20px 10px; /* Reduces side margins */
+                width: auto; /* Prevents rigid width overflow */
+            } 
+            .close-modal { top: 10px; right: 15px; font-size: 35px; } /* Move 'X' into safer zone */
+            .modal-header h2 { font-size: 2.2rem; } 
+            .modal-main-img { max-height: 250px; margin-bottom: 25px;} 
+            .modal-quote { font-size: 1rem; margin-top: 10px;}
+            
+            /* Fix Lightbox */
+            .close-lightbox { top: 10px; right: 15px; }
         }
     </style>
 </head>
@@ -239,7 +267,6 @@
                     const isMemory = pug.died !== null;
                     const lifespan = isMemory ? `${pug.born} - ${pug.died}` : `${pug.born} - Present`;
                     
-                    // NEW: Dynamic Status Badges
                     const badgeHtml = isMemory 
                         ? `<span class="status-badge badge-rainbow">🌈 Rainbow Bridge</span>` 
                         : `<span class="status-badge badge-present">💖 By Our Side</span>`;
@@ -270,7 +297,6 @@
                 const isMemory = pug.died !== null;
                 document.getElementById('modalLifespan').textContent = isMemory ? `${pug.born} - ${pug.died}` : `${pug.born} - Present`;
                 
-                // NEW: Dynamic Quotes
                 const quoteText = isMemory 
                     ? `"Just this side of heaven is a place called Rainbow Bridge. When an animal who has been especially close to someone here dies, that pet goes to Rainbow Bridge — there to run and play until the day comes when we are reunited."` 
                     : `"Filling our days with endless joy, gentle snorts, and unconditional love. Here with us, making every moment brighter."`;

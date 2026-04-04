@@ -18,15 +18,18 @@
             --transition-speed: 0.5s; --ease: cubic-bezier(0.16, 1, 0.3, 1); 
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+        
+        /* Removed overflow-x: hidden to fix mobile scroll detection bug */
+        html { scroll-behavior: smooth; }
         
         @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        body { font-family: var(--font-body); background-color: var(--color-bg); color: var(--color-text); line-height: 1.6; opacity: 0; animation: pageFadeIn 1s var(--ease) forwards; overflow-x: hidden; width: 100%;}
+        body { font-family: var(--font-body); background-color: var(--color-bg); color: var(--color-text); line-height: 1.6; opacity: 0; animation: pageFadeIn 1s var(--ease) forwards; }
+        
         h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; color: var(--color-text); }
         h3 { font-size: 2.2rem; margin-bottom: 2rem; }
         .text-center { text-align: center; } 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; width: 100%;}
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .section-padding { padding: 80px 0; } .bg-alt { background-color: var(--color-bg-alt); }
         .hint-text { font-size: 0.9rem; color: var(--color-text-light); margin-top: 30px; font-style: italic;}
         
@@ -47,7 +50,6 @@
         .filter-btn { background: none; border: 1px solid var(--color-accent); color: var(--color-text); padding: 8px 20px; border-radius: 25px; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; transition: all 0.3s var(--ease); }
         .filter-btn.active, .filter-btn:hover { background: var(--color-accent); color: #FFF; box-shadow: 0 4px 12px var(--color-card-shadow); }
         
-        /* Desktop Grid */
         .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .profile-card { background: #FFF; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.02); cursor: pointer; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
         .profile-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px var(--color-card-shadow); }
@@ -109,9 +111,11 @@
         
         /* --- BULLETPROOF MOBILE RESET --- */
         @media screen and (max-width: 768px) {
-            body { padding-top: 60px; } /* Prevent nav overlap */
+            /* GUARANTEE VISIBILITY: Overrides the fade-in hiding on mobile */
+            .fade-in { opacity: 1 !important; transform: none !important; transition: none !important; }
             
-            nav { position: absolute; } /* Fix weird scrolling issues on old phones */
+            body { padding-top: 60px; } 
+            nav { position: absolute; } 
             .nav-container { flex-direction: column; padding: 10px; }
             .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; margin: 0; padding: 0;}
             
@@ -122,10 +126,9 @@
             .section-padding { padding: 40px 0; } 
             h3 { font-size: 1.8rem; margin-bottom: 1rem;} 
             
-            /* Force 100% width block layout instead of grids */
             .profile-grid { display: block; }
             .profile-card { width: 100%; margin-bottom: 30px; display: block; }
-            .profile-img { height: auto; min-height: 200px; } /* Prevent squishing */
+            .profile-img { height: auto; min-height: 200px; } 
             
             .mini-gallery-grid { display: block; }
             .modal-gallery-img { width: 100%; height: auto; min-height: 150px; margin-bottom: 20px; }
@@ -133,8 +136,7 @@
             .video-grid { display: block; }
             .media-figure { margin-bottom: 30px; }
             
-            /* Fix Modal Overflows */
-            .modal-overlay { padding: 10px; } /* Add buffer around modal */
+            .modal-overlay { padding: 10px; } 
             .modal-content { 
                 padding: 30px 15px; 
                 margin: 0 auto; 
@@ -275,6 +277,7 @@
                     const isMemory = pug.died !== null;
                     const lifespan = isMemory ? `${pug.born} - ${pug.died}` : `${pug.born} - Present`;
                     
+                    // NEW: Dynamic Status Badges
                     const badgeHtml = isMemory 
                         ? `<span class="status-badge badge-rainbow">🌈 Rainbow Bridge</span>` 
                         : `<span class="status-badge badge-present">💖 By Our Side</span>`;
@@ -305,6 +308,7 @@
                 const isMemory = pug.died !== null;
                 document.getElementById('modalLifespan').textContent = isMemory ? `${pug.born} - ${pug.died}` : `${pug.born} - Present`;
                 
+                // NEW: Dynamic Quotes
                 const quoteText = isMemory 
                     ? `"Just this side of heaven is a place called Rainbow Bridge. When an animal who has been especially close to someone here dies, that pet goes to Rainbow Bridge — there to run and play until the day comes when we are reunited."` 
                     : `"Filling our days with endless joy, gentle snorts, and unconditional love. Here with us, making every moment brighter."`;

@@ -3,406 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Pugs | A Digital Memorial & Gallery</title>
+    <title>The Pugs | A Digital Memorial</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS STYLES --- */
         :root {
-            --color-bg: #FDFBF7; --color-bg-alt: #F4EFE6; --color-text: #4A4036;
-            --color-text-light: #7A6D61; --color-accent: #8C7A6B; 
-            --color-card-shadow: rgba(140, 122, 107, 0.15);
-            --font-heading: 'Lora', serif; --font-body: 'Nunito', sans-serif;
-            --transition-speed: 0.5s; --ease: cubic-bezier(0.16, 1, 0.3, 1); 
+            --bg-primary: #FAF9F6; 
+            --bg-secondary: #F0EDE6; 
+            --text-main: #1A1A1A; 
+            --text-muted: #6B655E; 
+            --accent: #A68A61; 
+            --rainbow: linear-gradient(120deg, #D4A373, #E6B8A2, #B5C9C3);
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-sans: 'Manrope', sans-serif;
+            
+            --ease-fluid: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        /* Removed overflow-x: hidden to fix mobile scroll detection bug */
-        html { scroll-behavior: smooth; }
-        
-        @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        body { font-family: var(--font-body); background-color: var(--color-bg); color: var(--color-text); line-height: 1.6; opacity: 0; animation: pageFadeIn 1s var(--ease) forwards; }
-        
-        h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; color: var(--color-text); }
-        h3 { font-size: 2.2rem; margin-bottom: 2rem; }
-        .text-center { text-align: center; } 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .section-padding { padding: 80px 0; } .bg-alt { background-color: var(--color-bg-alt); }
-        .hint-text { font-size: 0.9rem; color: var(--color-text-light); margin-top: 30px; font-style: italic;}
-        
-        nav { background-color: rgba(253, 251, 247, 0.98); position: fixed; width: 100%; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; max-width: 1100px; margin: 0 auto; }
-        .logo { font-size: 1.5rem; font-style: italic; color: var(--color-accent); }
-        .nav-links { list-style: none; display: flex; gap: 25px; }
-        .nav-links a { text-decoration: none; color: var(--color-text-light); font-size: 0.95rem; font-weight: 600; transition: color var(--transition-speed) ease; }
-        .nav-links a:hover { color: var(--color-text); }
-        
-        #hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(74, 64, 54, 0.5), rgba(253, 251, 247, 1)), url('https://images.unsplash.com/photo-1523626752472-b55a628f1acc?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; padding: 0 20px; margin-top: 60px; }
-        .hero-content h2 { font-size: 4.5rem; margin-bottom: 10px; letter-spacing: 2px; color: #fff;}
-        .hero-content p { font-size: 1.3rem; font-weight: 300; color: #fff; }
-        
-        .about-text { max-width: 750px; margin: 0 auto; font-size: 1.15rem; color: var(--color-text-light); font-weight: 300; }
-        
-        .filters { margin-bottom: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .filter-btn { background: none; border: 1px solid var(--color-accent); color: var(--color-text); padding: 8px 20px; border-radius: 25px; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; transition: all 0.3s var(--ease); }
-        .filter-btn.active, .filter-btn:hover { background: var(--color-accent); color: #FFF; box-shadow: 0 4px 12px var(--color-card-shadow); }
-        
-        .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .profile-card { background: #FFF; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.02); cursor: pointer; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
-        .profile-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px var(--color-card-shadow); }
-        .profile-img { width: 100%; height: 280px; object-fit: cover; transition: transform 0.5s var(--ease); display: block;}
-        .profile-card:hover .profile-img { transform: scale(1.03); }
-        .profile-info { padding: 25px; text-align: center; }
-        .profile-name { font-size: 1.6rem; margin-bottom: 8px; }
-        .lifespan-text { font-size: 0.9rem; color: var(--color-text-light); font-style: italic; margin-bottom: 12px; font-weight: 300; }
-        
-        .status-badge { display: inline-block; font-size: 0.75rem; padding: 5px 14px; border-radius: 20px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .badge-rainbow { background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 25%, #f6d365 50%, #a1c4fd 75%, #c2e9fb 100%); color: var(--color-text); }
-        .badge-present { background-color: #A9BBA0; color: #FFF; }
-        
-        .description-text { font-size: 0.95rem; color: var(--color-text); margin-bottom: 20px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .tags-container { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-        .personality-tag { background-color: var(--color-bg-alt); color: var(--color-text-light); font-size: 0.75rem; padding: 5px 12px; border-radius: 15px; text-transform: lowercase; border: 1px solid #EAE3D5; font-weight: 600; }
-        
-        .modal-overlay { visibility: hidden; opacity: 0; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(30, 25, 20, 0.9); z-index: 1000; overflow-y: auto; overflow-x: hidden; transition: opacity var(--transition-speed) var(--ease), visibility var(--transition-speed) var(--ease); }
-        .modal-overlay.open { visibility: visible; opacity: 1; }
-        .modal-content { background-color: var(--color-bg); max-width: 900px; margin: 50px auto; border-radius: 15px; padding: 60px 40px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: scale(0.95) translateY(30px); transition: transform var(--transition-speed) var(--ease); }
-        .modal-overlay.open .modal-content { transform: scale(1) translateY(0); } 
 
-        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 40px; line-height: 1; color: var(--color-text-light); cursor: pointer; transition: color 0.3s ease; z-index: 10;}
-        .close-modal:hover { color: var(--color-text); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; background-color: var(--bg-primary); }
+        body { font-family: var(--font-sans); color: var(--text-main); background-color: var(--bg-primary); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height: 1.1; }
+        p { line-height: 1.7; font-weight: 300; }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 2rem 4vw; display: flex; justify-content: space-between; align-items: center; z-index: 50; mix-blend-mode: difference; color: #fff; pointer-events: none; }
+        .logo { font-size: 1.5rem; font-style: italic; pointer-events: auto; font-family: var(--font-display);}
+        .nav-links { display: flex; gap: 3rem; list-style: none; pointer-events: auto; }
+        .nav-links a { color: #fff; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 1px; background-color: #fff; transition: width 0.6s var(--ease-fluid); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; background-color: #111;}
+        .hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(30%); transform: scale(1.05); animation: slowZoom 25s linear infinite alternate; }
+        .hero-content { position: relative; z-index: 2; text-align: center; color: #fff; display: flex; flex-direction: column; align-items: center; }
+        .hero h1 { font-size: clamp(4rem, 10vw, 10rem); font-style: italic; letter-spacing: -2px; margin-bottom: 1rem; opacity: 0; transform: translate3d(0, 40px, 0); animation: fadeUp 1.8s var(--ease-fluid) 0.2s forwards; }
+        .hero p { font-family: var(--font-sans); font-size: clamp(0.9rem, 1.5vw, 1.2rem); text-transform: uppercase; letter-spacing: 4px; opacity: 0; transform: translate3d(0, 20px, 0); animation: fadeUp 1.8s var(--ease-fluid) 0.6s forwards; }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translate3d(0, 0, 0); } }
+        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+        /* Intro Section */
+        .intro { padding: 15vh 5vw; max-width: 900px; margin: 0 auto; text-align: center; }
+        .intro h2 { font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 2rem; color: var(--accent); font-style: italic; }
+        .intro p { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--text-muted); margin-bottom: 2rem; }
         
-        .modal-header { margin-bottom: 30px; border-bottom: 1px solid var(--color-bg-alt); padding-bottom: 30px;}
-        .modal-header h2 { font-size: 3.5rem; margin-bottom: 5px; word-wrap: break-word;}
+        .quote-wrapper { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--bg-secondary); text-align: center;}
+        .intro-quote { font-family: var(--font-display); font-size: clamp(1.4rem, 2.5vw, 2rem); font-style: italic; color: var(--accent); line-height: 1.4; margin-bottom: 1.5rem;}
+        .quote-signature { font-family: var(--font-display); font-size: 2rem; color: var(--text-main); font-style: italic; letter-spacing: 1px; }
+
+        .gallery-section { padding: 0 4vw 15vh 4vw; }
+        .filters { display: flex; justify-content: center; gap: 2rem; margin-bottom: 5vh; flex-wrap: wrap;}
+        .filter-btn { background: none; border: none; font-family: var(--font-sans); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); cursor: pointer; padding-bottom: 5px; position: relative; transition: color 0.4s var(--ease-fluid); }
+        .filter-btn.active { color: var(--text-main); font-weight: 600; }
+        .filter-btn::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--text-main); transition: width 0.6s var(--ease-fluid); }
+        .filter-btn.active::after { width: 100%; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 6vw 4vw; }
         
-        .modal-quote { font-family: var(--font-heading); font-style: italic; font-size: 1.15rem; color: var(--color-accent); max-width: 650px; margin: 15px auto 25px auto; line-height: 1.6; }
+        .item { cursor: pointer; position: relative; }
+        .item-img-wrapper { position: relative; overflow: hidden; aspect-ratio: 4/5; margin-bottom: 1.5rem; background: var(--bg-secondary); }
+        .item img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s var(--ease-fluid), filter 1.5s var(--ease-fluid); filter: grayscale(20%); }
+        .item:hover img { transform: scale(1.03); filter: grayscale(0%); }
         
-        .modal-main-img { width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 40px; box-shadow: 0 10px 25px var(--color-card-shadow); display: block;}
-        .prose-container { max-width: 700px; margin: 0 auto 50px auto; font-size: 1.1rem; line-height: 1.8; color: var(--color-text); }
-        .prose-container h3 { font-size: 1.8rem; margin-bottom: 15px; text-align: center;}
+        .badge { position: absolute; top: 1rem; right: 1rem; padding: 0.4rem 1rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; z-index: 2; border-radius: 2px; backdrop-filter: blur(10px); }
+        .badge-rainbow { background: var(--rainbow); color: #111; }
+        .badge-present { background: rgba(255,255,255,0.9); color: var(--text-main); }
+
+        .item-info { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .item-name { font-size: 2.2rem; margin-bottom: 0.2rem; }
+        .item-dates { font-family: var(--font-sans); font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
+
+        .takeover { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-primary); z-index: 200; display: flex; transform: translate3d(0, 100%, 0); transition: transform 0.9s var(--ease-fluid); visibility: hidden; }
+        .takeover.is-open { transform: translate3d(0, 0, 0); visibility: visible; }
         
-        .modal-media-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--color-bg-alt); }
-        .modal-media-section h3 { text-align: center; font-size: 1.8rem; margin-bottom: 30px;}
+        .close-btn { position: absolute; top: 2rem; right: 3rem; font-size: 3rem; font-family: var(--font-sans); font-weight: 300; color: var(--text-main); cursor: pointer; z-index: 210; line-height: 1; mix-blend-mode: difference; color: #fff; transition: opacity 0.3s ease;}
+        .close-btn:hover { opacity: 0.6; }
+
+        .takeover-split { display: flex; width: 100%; height: 100%; }
         
-        .media-figure { display: flex; flex-direction: column; gap: 10px; margin: 0; break-inside: avoid; width: 100%;}
-        .media-caption { font-size: 0.9rem; color: var(--color-text-light); text-align: center; font-style: italic; padding: 0 10px;}
+        .pane-left { width: 50%; height: 100vh; position: relative; background: var(--bg-secondary); }
+        .pane-left img { width: 100%; height: 100%; object-fit: cover; }
+        .pane-name-overlay { position: absolute; bottom: 3rem; left: 3rem; color: #fff; mix-blend-mode: difference;}
+        .pane-name-overlay h2 { font-size: clamp(4rem, 8vw, 8rem); font-style: italic; line-height: 0.9; }
+        .pane-name-overlay p { font-family: var(--font-sans); font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; margin-top: 1rem; }
+
+        .pane-right { width: 50%; height: 100vh; overflow-y: auto; padding: 15vh 6vw; background: var(--bg-primary); scroll-behavior: smooth;}
         
-        .mini-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; align-items: start;}
-        .modal-gallery-img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; cursor: pointer; transition: opacity 0.3s ease; display: block;}
-        .modal-gallery-img:hover { opacity: 0.85; }
+        .story-block { margin-bottom: 5rem; }
+        .block-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--text-muted); margin-bottom: 1.5rem; border-bottom: 1px solid var(--bg-secondary); padding-bottom: 1rem;}
+        .story-text { font-size: 1.25rem; line-height: 1.8; color: var(--text-main); }
         
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%;}
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        
-        .lightbox { display: none; position: fixed; z-index: 1100; padding-top: 60px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(20, 18, 15, 0.98); }
-        .lightbox-content { margin: auto; display: block; max-width: 95%; max-height: 85vh; border-radius: 4px; animation: zoom 0.4s var(--ease); object-fit: contain;}
-        .close-lightbox { position: absolute; top: 15px; right: 25px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1200;}
-        @keyframes zoom { from {transform:scale(0.9); opacity: 0;} to {transform:scale(1); opacity: 1;} }
-        
-        footer { background-color: var(--color-text); color: #FFF; padding: 40px 0; font-size: 0.9rem; letter-spacing: 1px; margin-top: 80px;}
-        footer p { opacity: 0.8; font-weight: 300;}
-        
-        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-        
-        /* --- BULLETPROOF MOBILE RESET --- */
-        @media screen and (max-width: 768px) {
-            /* GUARANTEE VISIBILITY: Overrides the fade-in hiding on mobile */
-            .fade-in { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .tags-wrap { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+        .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--text-muted); padding: 0.4rem 1rem; border-radius: 50px; color: var(--text-muted); }
+
+        .media-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; margin-bottom: 5rem;}
+        .media-item img { width: 100%; height: auto; display: block; background: var(--bg-secondary); cursor: pointer; transition: opacity 0.4s var(--ease-fluid); }
+        .media-item img:hover { opacity: 0.8; }
+        .caption { font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: var(--text-muted); margin-top: 1rem; text-align: center; }
+
+        .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; width: 100%; }
+        .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        .lightbox { display: none; position: fixed; inset: 0; background: rgba(26, 26, 26, 0.98); z-index: 9999; justify-content: center; align-items: center; padding: 2rem; }
+        .lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; animation: subtleZoom 0.5s var(--ease-fluid); }
+        .lightbox-close { position: absolute; top: 2rem; right: 3rem; font-size: 3rem; color: #fff; cursor: pointer; font-family: var(--font-sans); font-weight: 300; transition: opacity 0.3s ease;}
+        .lightbox-close:hover { opacity: 0.6; }
+        @keyframes subtleZoom { from { transform: scale(0.97); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        footer { text-align: center; padding: 5vh 0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); border-top: 1px solid var(--bg-secondary); margin: 0 4vw;}
+
+        .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 1.2s var(--ease-fluid), transform 1.2s var(--ease-fluid); }
+        .reveal.is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
+
+        @media (max-width: 900px) {
+            nav { mix-blend-mode: normal; background: var(--bg-primary); color: var(--text-main); padding: 1.5rem 5vw; box-shadow: 0 1px 5px rgba(0,0,0,0.05);}
+            .nav-links a { color: var(--text-main); }
+            .nav-links a::after { background-color: var(--text-main); }
+            .logo { color: var(--text-main); }
             
-            body { padding-top: 60px; } 
-            nav { position: absolute; } 
-            .nav-container { flex-direction: column; padding: 10px; }
-            .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; margin: 0; padding: 0;}
+            .hero { height: 70vh; margin-top: 60px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4rem 0; }
             
-            #hero { margin-top: 0; height: auto; padding: 60px 20px; }
-            .hero-content h2 { font-size: 2.5rem; word-wrap: break-word;} 
-            .hero-content p { font-size: 1rem; } 
+            .takeover { overflow-y: auto; display: block; }
+            .takeover-split { flex-direction: column; height: auto; }
             
-            .section-padding { padding: 40px 0; } 
-            h3 { font-size: 1.8rem; margin-bottom: 1rem;} 
+            .pane-left { width: 100%; height: 60vh; position: relative; }
+            .pane-name-overlay { bottom: 2rem; left: 2rem; }
+            .pane-name-overlay h2 { font-size: 3.5rem; }
             
-            .profile-grid { display: block; }
-            .profile-card { width: 100%; margin-bottom: 30px; display: block; }
-            .profile-img { height: auto; min-height: 200px; } 
+            .pane-right { width: 100%; height: auto; overflow: visible; padding: 4rem 5vw; }
             
-            .mini-gallery-grid { display: block; }
-            .modal-gallery-img { width: 100%; height: auto; min-height: 150px; margin-bottom: 20px; }
-            
-            .video-grid { display: block; }
-            .media-figure { margin-bottom: 30px; }
-            
-            .modal-overlay { padding: 10px; } 
-            .modal-content { 
-                padding: 30px 15px; 
-                margin: 0 auto; 
-                width: 100%; 
-                border-radius: 8px;
-            } 
-            .close-modal { top: 5px; right: 15px; font-size: 30px; } 
-            .modal-header { padding-bottom: 15px; margin-bottom: 15px;}
-            .modal-header h2 { font-size: 2rem; } 
-            .modal-main-img { max-height: 250px; margin-bottom: 20px; border-radius: 4px;} 
-            .modal-quote { font-size: 1rem; margin-top: 10px;}
+            .close-btn { top: 1rem; right: 1.5rem; font-size: 2.5rem; mix-blend-mode: normal; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+            .lightbox-close { top: 1rem; right: 1.5rem; }
         }
     </style>
 </head>
-<body class="page-fade-in">
+<body>
 
     <nav>
-        <div class="nav-container">
-            <h1 class="logo">The Pugs</h1>
-            <ul class="nav-links">
-                <li><a href="#about">Our Story</a></li>
-                <li><a href="#profiles">The Pack</a></li>
-            </ul>
-        </div>
+        <div class="logo">The Pugs</div>
+        <ul class="nav-links">
+            <li><a href="#gallery">Gallery</a></li>
+        </ul>
     </nav>
 
-    <header id="hero">
-        <div class="hero-content fade-in">
-            <h2>The Pugs</h2>
-            <p>Celebrating the pawprints left on our hearts.</p>
+    <header class="hero">
+        <img src="https://images.unsplash.com/photo-1523626752472-b55a628f1acc?auto=format&fit=crop&w=2000&q=80" alt="Pug Background" class="hero-img">
+        <div class="hero-content">
+            <h1>The Pugs</h1>
+            <p>Celebrating the pawprints left on our hearts</p>
         </div>
     </header>
 
-    <section id="about" class="fade-in section-padding">
-        <div class="container text-center">
-            <h3>Our Story</h3>
-            <p class="about-text">
-                Welcome to a dedicated space honoring the beautiful pugs who have filled our lives with endless joy, gentle snorts, and unconditional love. This digital album is a tribute to both those who are currently snoozing on the couch and those who live on in our most cherished memories.
-            </p>
+    <section class="intro reveal">
+        <h2>Our Story</h2>
+        <p>Welcome to a dedicated space honoring the beautiful souls who have filled our lives with endless joy, gentle snorts, and unconditional love. This digital gallery is a tribute to those currently by our side, and those who live forever in our memories.</p>
+        
+        <div class="quote-wrapper">
+            <p class="intro-quote">"🌈 Rainbow Bridge! Just this side of heaven is a place called the Rainbow Bridge. When a beloved pug leaves this world, they journey there to run and play until the day we are reunited."</p>
+            <div class="quote-signature">The Pugs</div>
         </div>
     </section>
 
-    <section id="profiles" class="fade-in section-padding bg-alt">
-        <div class="container">
-            <h3 class="text-center">The Pack</h3>
-            <div class="filters text-center">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="present">With Us</button>
-                <button class="filter-btn" data-filter="memory">In Memory</button>
-            </div>
-            <div class="profile-grid" id="profileGrid"></div>
-            <p class="text-center hint-text">Click any pug to see their full story and gallery.</p>
+    <section id="gallery" class="gallery-section">
+        <div class="filters reveal">
+            <button class="filter-btn active" data-filter="all">All Profiles</button>
+            <button class="filter-btn" data-filter="present">With Us</button>
+            <button class="filter-btn" data-filter="memory">In Memory</button>
         </div>
+        <div class="grid" id="grid"></div>
     </section>
 
     <footer>
-        <div class="container text-center">
-            <p>&copy; <span id="year"></span> ThePugs.tk. Forever loved, never forgotten.</p>
-        </div>
+        <p>&copy; <span id="year"></span> ThePugs.tk. Forever Loved.</p>
     </footer>
 
-    <div id="pugModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-header text-center">
-                <h2 id="modalName">Pug Name</h2>
-                <p id="modalLifespan" class="lifespan-text"></p>
-                <p id="modalQuote" class="modal-quote"></p>
-                <div id="modalTags" class="tags-container"></div>
+    <div class="takeover" id="takeover">
+        <div class="close-btn" id="closeTakeover">&times;</div>
+        
+        <div class="takeover-split">
+            <div class="pane-left">
+                <img id="detailMainImg" src="" alt="">
+                <div class="pane-name-overlay">
+                    <h2 id="detailName">Name</h2>
+                    <p id="detailDates">Dates</p>
+                </div>
             </div>
-            <div class="modal-body">
-                <img id="modalMainImg" src="" alt="" class="modal-main-img">
-                <div class="prose-container">
-                    <h3>Their Story</h3>
-                    <p id="modalDescription"></p>
+            
+            <div class="pane-right">
+                <div class="story-block">
+                    <div class="block-title">The Story</div>
+                    <p class="story-text" id="detailDesc"></p>
+                    <div class="tags-wrap" id="detailTags"></div>
                 </div>
-                <div id="modalGallerySection" class="modal-media-section">
-                    <h3>More Photos</h3>
-                    <div id="modalGalleryGrid" class="mini-gallery-grid"></div>
+
+                <div id="galleryBlock" class="story-block">
+                    <div class="block-title">Memories</div>
+                    <div class="media-grid" id="detailGallery"></div>
                 </div>
-                <div id="modalVideoSection" class="modal-media-section">
-                    <h3>Videos</h3>
-                    <div id="modalVideoGrid" class="video-grid"></div>
+
+                <div id="videoBlock" class="story-block">
+                    <div class="block-title">Footage</div>
+                    <div class="media-grid" id="detailVideos"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <img class="lightbox-content" id="lightbox-img">
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-close" id="closeLightbox">&times;</div>
+        <img id="lightboxImg" src="" alt="">
     </div>
 
     <script>
-        // --- JAVASCRIPT ---
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('year').textContent = new Date().getFullYear();
-            const placeholderImage = "https://images.unsplash.com/photo-1523626752472-b55a628f1acc?auto=format&fit=crop&w=400&q=60";
+            const placeholderImg = "https://images.unsplash.com/photo-1523626752472-b55a628f1acc?auto=format&fit=crop&w=800&q=80";
 
             // DATA
             const pugData = [
-                { id: "pug-01", name: "Tuffy", born: "09-08-2006", died: "28-06-2009", photo: "images/pugs/tuffy.png", description: "The patriarch. Regal, rotund, and permanently convinced he was a lapdog despite weighing 12 kg.", tags: ["snorer", "lap pug", "the boss"], morePhotos: [{ url: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=400&q=60", caption: "Tuffy taking his 4th nap of the day." }, { url: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=400&q=60", caption: "Demanding dinner at 4:00 PM." }], videos: [{ url: "https://www.youtube.com/embed/dQw4w9WgXcQ", caption: "Tuffy trying to howl." }] },
-                { id: "pug-02", name: "Sidney", born: "07-09-2008", died: "2018", photo: "images/pugs/sidu.png", description: "Named for how she slept — always twisted into an impossible shape. Champion cuddler.", tags: ["cuddler", "sleepy", "drama queen"], morePhotos: [], videos: [] },
-                { id: "pug-03", name: "Simba", born: "02-05-2009", died: "20-12-2023", photo: "images/pugs/simba.png", description: "A round little soul who greeted every morning like it was Christmas.", tags: ["morning pug", "food motivated", "gentle"], morePhotos: [], videos: [] },
-                { id: "pug-04", name: "Blossom", born: "02-05-2009", died: "2024", photo: "images/pugs/blossom.png", description: "The fastest pug we ever had. Three second zoomies, then a four hour nap.", tags: ["zoomies", "napper", "speedy"], morePhotos: [], videos: [] },
-                { id: "pug-05", name: "Nura", born: "02-05-2009", died: "05-12-2023", photo: "images/pugs/nura.png", description: "Scrawny, scrappy, and absolutely full of herself. We loved every inch.", tags: ["feisty", "tiny terror", "courageous"], morePhotos: [], videos: [] },
-                { id: "pug-06", name: "Timon", born: "02-05-2009", died: "19-07-2018", photo: "images/pugs/timon.png", description: "The softest eyes. Would look at you like you'd personally hung the moon.", tags: ["gentle", "sweet", "mama's boy"], morePhotos: [], videos: [] },
-                { id: "pug-07", name: "Puka", born: "02-05-2009", died: "20-07-2017", photo: "images/pugs/puka.png", description: "Supermodel. Negotiates for treats with alarming sophistication.", tags: ["clever", "food thief", "leader"], morePhotos: [], videos: [] },
-                { id: "pug-08", name: "Starfish", born: "2017", died: "14-09-2025", photo: "images/pugs/star.png", description: "Soft, sweet, and slightly wiggly. Exactly as advertised.", tags: ["wiggly", "sweet", "social"], morePhotos: [], videos: [] },
-                { id: "pug-09", name: "Snow White", born: "2020", died: "22-12-2025", photo: "images/pugs/snow.png", description: "Named after the chocolate. Dark, sweet, and utterly addictive company.", tags: ["playful", "cheeky", "snuggly"], morePhotos: [], videos: [] },
-                { id: "pug-10", name: "Guddu Ji", born: "2021", died: "25-05-2021", photo: "images/pugs/gudduji.png", description: "Bright, tropical energy in a wrinkled package. Cannot sit still for more than 30 seconds.", tags: ["energetic", "zoomies", "sunbather"], morePhotos: [], videos: [] },
-                { id: "pug-11", name: "Bhalu", born: "2022", died: "26-04-2023", photo: "images/pugs/bhalu.png", description: "Tiny chip off the old block. Still figuring out the stairs.", tags: ["puppy", "curious", "brave"], morePhotos: [], videos: [] },
-                { id: "pug-12", name: "Nemo", born: "2022", died: null, photo: "images/pugs/nemo.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
-                { id: "pug-13", name: "Kukudu Ji Original", born: "2022", died: null, photo: "images/pugs/original_kuku.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
-                { id: "pug-13-b", name: "Kukduji", born: "2022", died: null, photo: "images/pugs/kuku.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
-                { id: "pug-14", name: "Thau", born: "2022", died: "13-12-2022", photo: "images/pugs/thau.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
-                { id: "pug-15", name: "Cheery", born: "2022", died: null, photo: "images/pugs/cheery.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
-                { id: "pug-16", name: "Paiku", born: "2022", died: null, photo: "images/pugs/paiku.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
-                { id: "pug-17", name: "Timba", born: "2022", died: null, photo: "images/pugs/timba.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
-                { id: "pug-18", name: "Popings", born: "2022", died: null, photo: "images/pugs/popings.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] }
+                { id: "p1", name: "Tuffy", born: "09-08-2006", died: "28-06-2009", photo: "images/pugs/tuffy.png", description: "The patriarch. Regal, rotund, and permanently convinced he was a lapdog despite weighing 12 kg.", tags: ["snorer", "lap pug", "the boss"], morePhotos: [{ url: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80", caption: "Tuffy taking his 4th nap of the day." }, { url: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=800&q=80", caption: "Demanding dinner at 4:00 PM." }], videos: [{ url: "https://www.youtube.com/embed/dQw4w9WgXcQ", caption: "Tuffy trying to howl." }] },
+                { id: "p2", name: "Sidney", born: "07-09-2008", died: "2018", photo: "images/pugs/sidu.png", description: "Named for how she slept — always twisted into an impossible shape. Champion cuddler.", tags: ["cuddler", "sleepy", "drama queen"], morePhotos: [], videos: [] },
+                { id: "p3", name: "Simba", born: "02-05-2009", died: "20-12-2023", photo: "images/pugs/simba.png", description: "A round little soul who greeted every morning like it was Christmas.", tags: ["morning pug", "food motivated", "gentle"], morePhotos: [], videos: [] },
+                { id: "p4", name: "Blossom", born: "02-05-2009", died: "2024", photo: "images/pugs/blossom.png", description: "The fastest pug we ever had. Three second zoomies, then a four hour nap.", tags: ["zoomies", "napper", "speedy"], morePhotos: [], videos: [] },
+                { id: "p5", name: "Nura", born: "02-05-2009", died: "05-12-2023", photo: "images/pugs/nura.png", description: "Scrawny, scrappy, and absolutely full of herself. We loved every inch.", tags: ["feisty", "tiny terror", "courageous"], morePhotos: [], videos: [] },
+                { id: "p6", name: "Timon", born: "02-05-2009", died: "19-07-2018", photo: "images/pugs/timon.png", description: "The softest eyes. Would look at you like you'd personally hung the moon.", tags: ["gentle", "sweet", "mama's boy"], morePhotos: [], videos: [] },
+                { id: "p7", name: "Puka", born: "02-05-2009", died: "20-07-2017", photo: "images/pugs/puka.png", description: "Supermodel. Negotiates for treats with alarming sophistication.", tags: ["clever", "food thief", "leader"], morePhotos: [], videos: [] },
+                { id: "p8", name: "Starfish", born: "2017", died: "14-09-2025", photo: "images/pugs/star.png", description: "Soft, sweet, and slightly wiggly. Exactly as advertised.", tags: ["wiggly", "sweet", "social"], morePhotos: [], videos: [] },
+                { id: "p9", name: "Snow White", born: "2020", died: "22-12-2025", photo: "images/pugs/snow.png", description: "Named after the chocolate. Dark, sweet, and utterly addictive company.", tags: ["playful", "cheeky", "snuggly"], morePhotos: [], videos: [] },
+                { id: "p10", name: "Guddu Ji", born: "2021", died: "25-05-2021", photo: "images/pugs/gudduji.png", description: "Bright, tropical energy in a wrinkled package. Cannot sit still for more than 30 seconds.", tags: ["energetic", "zoomies", "sunbather"], morePhotos: [], videos: [] },
+                { id: "p11", name: "Bhalu", born: "2022", died: "26-04-2023", photo: "images/pugs/bhalu.png", description: "Tiny chip off the old block. Still figuring out the stairs.", tags: ["puppy", "curious", "brave"], morePhotos: [], videos: [] },
+                { id: "p12", name: "Nemo", born: "2022", died: 2012, photo: "images/pugs/nemo.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
+                { id: "p13", name: "Kukadu Ji Sr.", born: "2010", died: 2014, photo: "images/pugs/original_kuku.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
+                { id: "p14", name: "Kukadu ji Jr.", born: "2010", died: 01-05-2021, photo: "images/pugs/kuku.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
+                { id: "p15", name: "Thau", born: "2022", died: "13-12-2022", photo: "images/pugs/thau.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
+                { id: "p16", name: "Cheery", born: "2022", died: null, photo: "images/pugs/cheery.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
+                { id: "p17", name: "Paiku", born: "2022", died: null, photo: "images/pugs/paiku.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
+                { id: "p18", name: "Timba", born: "2022", died: null, photo: "images/pugs/timba.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] },
+                { id: "p19", name: "Popings", born: "2022", died: null, photo: "images/pugs/popings.png", description: "Chip's partner in crime. Together they have dismantled two sofas.", tags: ["mischievous", "duo", "puppy"], morePhotos: [], videos: [] }
             ];
 
-            const profileGrid = document.getElementById('profileGrid');
-            const pugModal = document.getElementById('pugModal');
-            const closeModalBtn = document.querySelector('.close-modal');
+            const grid = document.getElementById('grid');
+            const takeover = document.getElementById('takeover');
+            const lb = document.getElementById('lightbox');
 
-            function renderPugs(filter = 'all') {
-                profileGrid.innerHTML = ''; 
-                const filteredPugs = pugData.filter(pug => {
-                    const status = pug.died === null ? 'present' : 'memory';
-                    return filter === 'all' || status === filter;
-                });
+            function render(filter = 'all') {
+                grid.innerHTML = ''; 
+                const filtered = pugData.filter(p => filter === 'all' || (filter === 'memory' && p.died) || (filter === 'present' && !p.died));
 
-                filteredPugs.forEach(pug => {
-                    const card = document.createElement('div');
-                    card.className = 'profile-card fade-in visible'; 
-                    
+                filtered.forEach((pug, index) => {
                     const isMemory = pug.died !== null;
-                    const lifespan = isMemory ? `${pug.born} - ${pug.died}` : `${pug.born} - Present`;
+                    const badge = isMemory ? `<div class="badge badge-rainbow">🌈 Bridge</div>` : `<div class="badge badge-present">With Us</div>`;
+                    const imgUrl = pug.photo && pug.photo !== "null" ? pug.photo : placeholderImg;
                     
-                    // NEW: Dynamic Status Badges
-                    const badgeHtml = isMemory 
-                        ? `<span class="status-badge badge-rainbow">🌈 Rainbow Bridge</span>` 
-                        : `<span class="status-badge badge-present">💖 By Our Side</span>`;
-
-                    const tagsHtml = pug.tags.slice(0, 3).map(tag => `<span class="personality-tag">${tag}</span>`).join('');
-                    const imageSrc = pug.photo ? pug.photo : placeholderImage;
-
-                    card.innerHTML = `
-                        <img src="${imageSrc}" alt="${pug.name}" class="profile-img" loading="lazy">
-                        <div class="profile-info">
-                            <h4 class="profile-name">${pug.name}</h4>
-                            ${badgeHtml}
-                            <p class="lifespan-text">${lifespan}</p>
-                            <p class="description-text">${pug.description}</p>
-                            <div class="tags-container">${tagsHtml}</div>
+                    const el = document.createElement('div');
+                    el.className = 'item reveal';
+                    el.style.transitionDelay = `${index * 0.05}s`; 
+                    
+                    el.innerHTML = `
+                        <div class="item-img-wrapper">
+                            ${badge}
+                            <img src="${imgUrl}" alt="${pug.name}" loading="lazy">
+                        </div>
+                        <div class="item-info">
+                            <div class="item-name">${pug.name}</div>
+                            <div class="item-dates">${pug.born} — ${isMemory ? pug.died : 'Present'}</div>
                         </div>
                     `;
-                    card.addEventListener('click', () => openPugModal(pug.id));
-                    profileGrid.appendChild(card);
+                    
+                    el.addEventListener('click', () => openTakeover(pug));
+                    grid.appendChild(el);
                 });
+                
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             }
 
-            function openPugModal(pugId) {
-                const pug = pugData.find(p => p.id === pugId);
-                if (!pug) return;
-
-                document.getElementById('modalName').textContent = pug.name;
-                const isMemory = pug.died !== null;
-                document.getElementById('modalLifespan').textContent = isMemory ? `${pug.born} - ${pug.died}` : `${pug.born} - Present`;
+            function openTakeover(pug) {
+                const isMem = pug.died !== null;
                 
-                // NEW: Dynamic Quotes
-                const quoteText = isMemory 
-                    ? `"Just this side of heaven is a place called Rainbow Bridge. When an animal who has been especially close to someone here dies, that pet goes to Rainbow Bridge — there to run and play until the day comes when we are reunited."` 
-                    : `"Filling our days with endless joy, gentle snorts, and unconditional love. Here with us, making every moment brighter."`;
-                document.getElementById('modalQuote').textContent = quoteText;
-
-                document.getElementById('modalMainImg').src = pug.photo ? pug.photo : placeholderImage;
-                document.getElementById('modalMainImg').alt = pug.name;
-                document.getElementById('modalDescription').textContent = pug.description;
-                document.getElementById('modalTags').innerHTML = pug.tags.map(tag => `<span class="personality-tag">${tag}</span>`).join('');
-
-                const gallerySection = document.getElementById('modalGallerySection');
-                const galleryGrid = document.getElementById('modalGalleryGrid');
-                galleryGrid.innerHTML = ''; 
+                document.getElementById('detailName').textContent = pug.name;
+                document.getElementById('detailDates').textContent = `${pug.born} — ${isMem ? pug.died : 'Present'}`;
+                document.getElementById('detailMainImg').src = pug.photo && pug.photo !== "null" ? pug.photo : placeholderImg;
+                document.getElementById('detailDesc').textContent = pug.description;
+                document.getElementById('detailTags').innerHTML = pug.tags.map(t => `<span class="tag">${t}</span>`).join('');
                 
-                if (pug.morePhotos && pug.morePhotos.length > 0) {
-                    gallerySection.style.display = 'block';
-                    pug.morePhotos.forEach(media => {
-                        const figure = document.createElement('figure');
-                        figure.className = 'media-figure';
-                        const img = document.createElement('img');
-                        img.src = media.url; img.className = 'modal-gallery-img';
-                        img.addEventListener('click', function() { openLightbox(this.src); });
-                        figure.appendChild(img);
-                        
-                        if(media.caption) {
-                            const caption = document.createElement('figcaption');
-                            caption.className = 'media-caption'; caption.textContent = media.caption;
-                            figure.appendChild(caption);
-                        }
-                        galleryGrid.appendChild(figure);
+                const gBlock = document.getElementById('galleryBlock');
+                const gGrid = document.getElementById('detailGallery');
+                gGrid.innerHTML = '';
+                if(pug.morePhotos && pug.morePhotos.length){
+                    gBlock.style.display = 'block';
+                    pug.morePhotos.forEach(m => {
+                        const d = document.createElement('div'); d.className = 'media-item';
+                        const i = document.createElement('img'); i.src = m.url; i.onclick = () => openLightbox(m.url);
+                        d.appendChild(i);
+                        if(m.caption) { const c = document.createElement('div'); c.className = 'caption'; c.textContent = m.caption; d.appendChild(c); }
+                        gGrid.appendChild(d);
                     });
-                } else { gallerySection.style.display = 'none'; }
+                } else gBlock.style.display = 'none';
 
-                const videoSection = document.getElementById('modalVideoSection');
-                const videoGrid = document.getElementById('modalVideoGrid');
-                videoGrid.innerHTML = ''; 
-                
-                if (pug.videos && pug.videos.length > 0) {
-                    videoSection.style.display = 'block';
-                    pug.videos.forEach(media => {
-                        const figure = document.createElement('figure');
-                        figure.className = 'media-figure';
-                        const wrapper = document.createElement('div'); wrapper.className = 'video-wrapper';
-                        wrapper.innerHTML = `<iframe src="${media.url}" frameborder="0" allowfullscreen></iframe>`;
-                        figure.appendChild(wrapper);
-                        
-                        if(media.caption) {
-                            const caption = document.createElement('figcaption');
-                            caption.className = 'media-caption'; caption.textContent = media.caption;
-                            figure.appendChild(caption);
-                        }
-                        videoGrid.appendChild(figure);
+                const vBlock = document.getElementById('videoBlock');
+                const vGrid = document.getElementById('detailVideos');
+                vGrid.innerHTML = '';
+                if(pug.videos && pug.videos.length){
+                    vBlock.style.display = 'block';
+                    pug.videos.forEach(m => {
+                        const d = document.createElement('div'); d.className = 'media-item';
+                        const w = document.createElement('div'); w.className = 'video-wrap';
+                        w.innerHTML = `<iframe src="${m.url}" frameborder="0" allowfullscreen></iframe>`;
+                        d.appendChild(w);
+                        if(m.caption) { const c = document.createElement('div'); c.className = 'caption'; c.textContent = m.caption; d.appendChild(c); }
+                        vGrid.appendChild(d);
                     });
-                } else { videoSection.style.display = 'none'; }
+                } else vBlock.style.display = 'none';
 
-                setTimeout(() => { pugModal.classList.add('open'); }, 10);
-                document.body.style.overflow = 'hidden'; 
+                takeover.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
             }
 
-            function closePugModal() {
-                pugModal.classList.remove('open');
-                document.body.style.overflow = ''; 
-                setTimeout(() => { document.getElementById('modalVideoGrid').innerHTML = ''; }, 500);
+            function closeTakeoverPanel() {
+                takeover.classList.remove('is-open');
+                document.body.style.overflow = '';
+                setTimeout(() => document.getElementById('detailVideos').innerHTML = '', 600);
             }
 
-            closeModalBtn.addEventListener('click', closePugModal);
-            pugModal.addEventListener('click', (e) => { if (e.target === pugModal) closePugModal(); });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePugModal(); });
+            document.getElementById('closeTakeover').addEventListener('click', closeTakeoverPanel);
+
+            /* ESCAPE KEY LISTENER */
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (lb.style.display === 'flex') {
+                        lb.style.display = 'none';
+                    } 
+                    else if (takeover.classList.contains('is-open')) {
+                        closeTakeoverPanel();
+                    }
+                }
+            });
 
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
-                    renderPugs(e.target.getAttribute('data-filter'));
+                    render(e.target.dataset.filter);
                 });
             });
 
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            document.querySelector('.close-lightbox').addEventListener('click', () => { lightbox.style.display = 'none'; });
-            lightbox.addEventListener('click', (e) => { if (e.target !== lightboxImg) lightbox.style.display = 'none'; });
-            function openLightbox(src) { lightbox.style.display = 'block'; lightboxImg.src = src; }
+            const lbImg = document.getElementById('lightboxImg');
+            function openLightbox(src) { lbImg.src = src; lb.style.display = 'flex'; }
+            document.getElementById('closeLightbox').addEventListener('click', () => lb.style.display = 'none');
+            lb.addEventListener('click', e => { if(e.target === lb) lb.style.display = 'none'; });
 
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        obs.unobserve(entry.target); 
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('is-visible');
+                        observer.unobserve(e.target);
                     }
                 });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+            }, { threshold: 0.1 });
 
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-            renderPugs();
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            render();
         });
     </script>
 </body>

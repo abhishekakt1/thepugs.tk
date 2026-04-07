@@ -683,8 +683,15 @@
             border-bottom: 1px solid var(--divider);
         }
         #giscus-container { min-height: 80px; }
-        /* Giscus iframe theme blending */
-        .giscus, .giscus-frame { width: 100% !important; }
+
+        /* Make Giscus iframe blend into the warm-white panel */
+        .giscus, .giscus-frame {
+            width: 100% !important;
+            border-radius: 8px;
+            border: 1px solid var(--divider) !important;
+            background: var(--warm-white) !important;
+            color-scheme: light;
+        }
 
         /* ── ANIMATIONS ── */
         @keyframes fadeUp {
@@ -1030,17 +1037,30 @@
             giscusScript.setAttribute('data-repo-id', 'R_kgDOR54YEw');
             giscusScript.setAttribute('data-category', '[ENTER CATEGORY NAME HERE]');
             giscusScript.setAttribute('data-category-id', '[ENTER CATEGORY ID HERE]');
-            // Use a stable slug per pug so each gets its own thread
             giscusScript.setAttribute('data-mapping', 'specific');
             giscusScript.setAttribute('data-term', '/pug/' + pug.id);
             giscusScript.setAttribute('data-strict', '0');
             giscusScript.setAttribute('data-reactions-enabled', '1');
             giscusScript.setAttribute('data-emit-metadata', '0');
             giscusScript.setAttribute('data-input-position', 'bottom');
-            giscusScript.setAttribute('data-theme', 'preferred_color_scheme');
+            giscusScript.setAttribute('data-theme', 'https://abhishekakt1.github.io/thepugs.tk/giscus-theme.css');
             giscusScript.setAttribute('data-lang', 'en');
             giscusScript.setAttribute('crossorigin', 'anonymous');
             giscusScript.async = true;
+
+            // Once the iframe loads, send custom theme variables to match the site palette
+            giscusScript.onload = function() {
+                setTimeout(function() {
+                    const iframe = document.querySelector('iframe.giscus-frame');
+                    if (iframe) {
+                        iframe.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme: 'light' } } },
+                            'https://giscus.app'
+                        );
+                    }
+                }, 800);
+            };
+
             giscusContainer.appendChild(giscusScript);
 
             takeover.classList.add('is-open');

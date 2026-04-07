@@ -1,0 +1,98 @@
+/*
+ * Custom Giscus theme for thepugs.tk
+ * Drop this file in the root of your GitHub Pages repo alongside index.html
+ */
+
+:root {
+    --color-canvas-default:        #FDFAF5;
+    --color-canvas-subtle:         #F8F3EC;
+    --color-canvas-inset:          #F0E9DC;
+
+    --color-border-default:        #E5D5BE;
+    --color-border-muted:          #EDE3D3;
+
+    --color-fg-default:            #1E1208;
+    --color-fg-muted:              #7A5C3E;
+    --color-fg-subtle:             #9E7D5E;
+
+    --color-btn-text:              #2C1A0E;
+    --color-btn-bg:                #F5E4CC;
+    --color-btn-border:            #E5D5BE;
+    --color-btn-hover-bg:          #EDD5AF;
+    --color-btn-hover-border:      #C8843A;
+    --color-btn-active-bg:         #E3C99A;
+
+    --color-btn-primary-text:      #FDFAF5;
+    --color-btn-primary-bg:        #C8843A;
+    --color-btn-primary-border:    #A86A28;
+    --color-btn-primary-hover-bg:  #B5722E;
+    --color-btn-primary-hover-border: #8B5520;
+    --color-btn-primary-active-bg: #9F6228;
+
+    --color-accent-fg:             #C8843A;
+    --color-accent-emphasis:       #C8843A;
+    --color-accent-subtle:         #F5E4CC;
+
+    --color-header-bg:             #F8F3EC;
+    --color-header-text:           #2C1A0E;
+
+    --color-input-bg:              #FDFAF5;
+    --color-input-border:          #E5D5BE;
+    --color-input-placeholder:     #B89B7A;
+    --color-input-text:            #1E1208;
+
+    --color-social-reaction-bg-hover:     #F5E4CC;
+    --color-social-reaction-bg-reacted:   #EDD5AF;
+
+    --color-markdown-code-bg:      #F0E9DC;
+    --color-prettylights-syntax-comment:   #7A5C3E;
+    --color-prettylights-syntax-constant:  #C8843A;
+    --color-prettylights-syntax-entity:    #5C3D22;
+    --color-prettylights-syntax-keyword:   #A86A28;
+    --color-prettylights-syntax-string:    #3D6B4F;
+    --color-prettylights-syntax-variable:  #C8843A;
+}
+
+/* Remove the default iframe border/shadow */
+* { box-sizing: border-box; }
+
+body {
+    background: transparent !important;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+}
+
+/* Write/Preview tabs */
+.color-bg-default { background: transparent !important; }
+
+/* Textarea */
+textarea {
+    background: #F8F3EC !important;
+    border-color: #E5D5BE !important;
+    color: #1E1208 !important;
+}
+textarea:focus {
+    border-color: #C8843A !important;
+    box-shadow: 0 0 0 3px rgba(200, 132, 58, 0.15) !important;
+}
+
+/* Sign-in button */
+.btn-primary {
+    background: #C8843A !important;
+    border-color: #A86A28 !important;
+    color: #FDFAF5 !important;
+}
+.btn-primary:hover {
+    background: #B5722E !important;
+    border-color: #8B5520 !important;
+}
+
+/* Reaction button */
+.btn { border-radius: 50px !important; }
+
+/* Links */
+a { color: #C8843A !important; }
+a:hover { color: #A86A28 !important; }
+
+/* Timeline / comment border */
+.timeline-comment { border-color: #E5D5BE !important; }
+.timeline-comment-header { background: #F8F3EC !important; border-color: #E5D5BE !important; }
